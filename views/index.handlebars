@@ -24,43 +24,8 @@
 
 {{> mainscreen}}
 </div>
-<div id="mainShadow" class="modal hidden" style="background-color:black;opacity:.5;top:0px;left:0px;"></div>
-<div id="mainModal" class="fnf-back1 modal hidden" style="top:10px; left:10px;border-radius:5px;">
-<div  class="center full" style="border-bottom:1px solid #CCC;font-size:large;">
-<div class="table full">
-	<div class="row">
-		<div class="cell width10 clickable" onclick="hideModal()" style="color:#00A1CB;">
-			back
-		</div>
-		<div id="modalTitle" class="cell width80 center">
-			Title
-		</div>
-		<div class="cell width10">
-		</div>
-	</div>
-</div>
 
-<img id="modalImage" class="center" style="max-height:300px" src="">
-
-
-
-</div>
-<div class="center width90 top20">
-	<h3 style="font-size:medium">How often would you like to eat with this person?</h3>
-	<select>
-		<option>Anything goes</option>
-		<option>As much as possible</option>
-		<option>Once a week</option>
-		<option>Once biweekly</option>
-		<option>Once a month</option>
-		<option>Once a quarter</option>
-		<option>Once a year</option>
-		<option>Never</option>
-	</select>
-	<br>
-</div>
-
-</div>
+{{> friendsmodal }}
 
 <script>
 {{#if loggedin}}

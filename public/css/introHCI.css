@@ -10,6 +10,43 @@ input[type="text"].searchBar {
   margin-left:1px;
 }
 
+.blueToolbar {
+  padding:5px;
+  bottom:72px;
+  width:100%;
+  background-color:#188DD1;
+  color:white;
+  text-align: center;
+}
+
+#modalHeaderBar {
+  border-bottom:1px solid #CCC;
+  background-color:white;
+  border-radius:5px 5px 0px 0px;
+}
+
+#modalImage {
+  max-height:300px;
+  max-width:98%;
+  margin-top:42px;
+}
+
+.stat2Table td {
+  border:1px solid #CCC;
+}
+
+.stat2Table td:first-child {
+  padding-left:10px;
+  width:80%;
+
+}
+
+.stat2Table td:last-child {
+  text-align:center;
+  width:20%;
+  padding-right:10px;
+}
+
 .navBar {
   height:60px;
   background-color:white;
@@ -220,6 +257,12 @@ button {
   color:white;
 }
 
+.fnf-green-button, .fnf-green-button:focus, .fnf-green-button:hover:disabled {
+  background-color:#61AE24;
+  border-color:#61AE24;
+  color:white;
+}
+
 .fnf-second-button, .fnf-second-button:focus {
   background-color:#616161;
   border-color:#616161;
@@ -232,6 +275,12 @@ button {
   color:white;
 }
 
+.fnf-green-button:hover {
+  background-color:#519E14;
+  border-color:#519E14;
+  color:white;
+}
+
 .fnf-second-button:hover {
   background-color:#535448;
   border-color:#535448;
@@ -241,6 +290,12 @@ button {
 .fnf-button:active {
   background-color:#0081AB;
   border-color:#0081AB;
+  color:white;
+}
+
+.fnf-green-button:active {
+  background-color:#418E04;
+  border-color:#418E04;
   color:white;
 }
 
@@ -708,21 +763,45 @@ body > div.container {
   width:50px;
 }
 
-.tableFirstCol {
+.mcal td.tableFirstCol, .mcal th.tableFirstCol {
   width:50px;
+  min-width:50px;
+  text-align:right;
 }
 
 .mcal th {
   text-align: center;
   border-right:1px solid #EEE;
-  width:20%;
 }
 
 .mcal td {
   text-align: center;
   border-right:1px solid #EEE;
   height:20px;
-  width:20%;
+}
+
+.stdCalCell {
+  min-width:90px;
+}
+
+.calOptionTH {
+  background-color:black;
+  color:white;
+}
+
+.emptyCell {
+  min-width:90px;
+  background-color:#444;
+  font-size:x-small;
+  color:white;
+}
+
+.emptyCell:hover {
+  color:#CDEEF8;
+}
+
+.emptyCell:active {
+  color:#CDD7F8;
 }
 
 .freeCell {
@@ -735,4 +814,31 @@ td.lockedCell {
   border:1px 1px 1px 1px;
   border-left:1px solid #CCC;
   border-color:#CCC;
+}
+
+td.fillableCell {
+  bborder-color:#CCC;
+}
+
+/* responsive tables */
+table th { font-weight: bold; }
+table td, table th { padding: 9px 10px; text-align: left; }
+
+/* Mobile */
+@media only screen and (max-width: 767px) {
+  
+  table.responsive { margin-bottom: 0; }
+  
+  .pinned { position: absolute; left: 0; top: 0; background: #fff; width: 55px; overflow: hidden; overflow-x: scroll; border-right: 1px solid #ccc; border-left: 1px solid #ccc; }
+  .pinned table { border-right: none; border-left: none; width: 100%; }
+  .pinned table th, .pinned table td { white-space: nowrap; }
+  .pinned td:last-child { border-bottom: 0; }
+  
+  div.table-wrapper { position: relative; margin-bottom: 20px; overflow: hidden; border-right: 1px solid #ccc; }
+  div.table-wrapper div.scrollable table { margin-left: 55px; }
+  div.table-wrapper div.scrollable { overflow: scroll; overflow-y: hidden; }  
+  
+  table.responsive td, table.responsive th { position: relative; white-space: nowrap; overflow: hidden; }
+  table.responsive th:first-child, table.responsive td:first-child, table.responsive td:first-child, table.responsive.pinned td { display: none; }
+  
 }

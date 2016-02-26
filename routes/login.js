@@ -28,11 +28,28 @@ exports.currUserPage = function(req, res) {
 
 exports.userInfoPage = function(req, res) {
     if (req.body.id) {
-        models.User.find({_id: req.body.id}).exec(afterFind);
+        if (req.body.status) {
+            models.Friend.update({person: req.session.user._id, friend: req.body.id},
+                {status: req.body.status}, afterStatusUpdate);
+            function afterStatusUpdate(err) {
+                if (err) {
+                    console.log(err);
+                }
+                res.json({'success': true});
+            }
 
-        function afterFind(err, users) {
-            res.json({"user": users[0]});
+        } else {
+            models.User.find({_id: req.body.id}).exec(afterFind);
+
+            function afterFind(err, users) {
+                models.Friend.find({person:req.session.user._id,friend:req.body.id}).exec(afterFriendFind);
+                function afterFriendFind(err, friends) {
+                    res.json({"user": users[0], "friendship": friends[0], "success": true});
+                }
+            }
         }
+    } else {
+        res.json({'success': false, "error": "No user id provided"});
     }
 }
 
@@ -165,7 +182,6 @@ exports.step1Page = function(req, res) {
                 if (err) {
                     console.log(err);
                 }
-                console.log("success");
                 res.json({'success': true});
             }
         )

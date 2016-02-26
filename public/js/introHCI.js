@@ -8,27 +8,18 @@ $(document).ready(function() {
 
 	$("#mainArea").height( $(window).height() - 120 );
 	$("#mainModal").height( $(window).height() - 20 );
-	$("#mainModal").width( $(window).width() - 20 );
+	$("#mainModal, #modalHeaderBar").width( $(window).width() - 20 );
 	$("#mainShadow").height( $(window).height());
 	$("#mainShadow").width( $(window).width() );
 
 	$( window ).resize(function() {
 	  $("#mainArea").height( $(window).height() - 120 );
 	  $("#mainModal").height( $(window).height() - 20 );
-	  $("#mainModal").width( $(window).width() - 20 );
+	  $("#mainModal, #modalHeaderBar").width( $(window).width() - 20 );
 	  $("#mainShadow").height( $(window).height());
 	  $("#mainShadow").width( $(window).width() );
 	});
 
-	$(".mcal td").click(function(e) {
-		var t = $(e.target);
-		if (!$(e.target).hasClass("freeCell")) {
-			$(e.target).text("searching...");
-		} else {
-			$(e.target).text("");
-		}
-		$(e.target).toggleClass("freeCell");
-	});
 })
 
 /*
@@ -220,6 +211,8 @@ function addf(id) {
 			$("#consider" + id).remove();
 			$("#recentadded").prepend(clone);
 			$("#recentaddedlabel").hide();
+			$("#addOnProfile").hide();
+			$("#selectOftenDiv").show();
 			populateFriends();
 		} else {
 			alert(data.error);
@@ -377,9 +370,8 @@ function populateFriends() {
 function initPage(page) {
 	if (page == 1) {
 		populateRecents();
-		
 	} else if (page == 2) {
-
+		mainCal.pageEntered();
 	} else if (page == 3) {
 		populateFriends();
 	} else if (page == 4) {
@@ -414,11 +406,51 @@ function showModal() {
 
 function showFriend(id) {
 	showModal();
+	enableSaveOftenButton()
 	$.post("/user", {"id": id}, function(data) {
 		console.log(data);
-		$("#modalTitle").text(data.user.name);
-		$("#modalImage").attr("src", data.user.imageUrl);
+		if (data.success) {
+			$(".friendName").text(data.user.name);
+			$("#userInfoId").val(data.user._id);
+			$("#modalImage").attr("src", data.user.imageUrl);
+			$("#meetupScheduled").text(data.user.attendence);
+			$("#meetupAttended").text(data.user.aamount);
+			$("#attendenceRate").text((data.user.aamount == 0) ? "n/a" : Math.round(data.user.attendence / data.user.aamount * 10000) / 100 + "%");
+			if (data.friendship) {
+				$("#addOnProfile").hide();
+				$("#selectOftenDiv").show();
+				$("#oftenSelect").val(data.friendship.status);
+			} else {
+				$("#addOnProfile").show();
+				$("#addOnProfile").attr("onclick", "addf('" + data.user._id + "')");
+				$("#selectOftenDiv").hide();
+			}	
+		} else {
+			alert(data.error);
+		}
 	});
+}
+
+function enableSaveOftenButton() {
+	$("#saveOftenButton").removeClass("fnf-green-button");
+	$("#saveOftenButton").addClass("fnf-button");
+	$("#saveOftenButton").text("SAVE");
+	$("#saveOftenButton").attr("disabled", false);
+}
+
+function saveOften() {
+	if ($("#saveOftenButton").hasClass("fnf-button")) {
+		$.post("/user", {"id": $("#userInfoId").val(), "status": $("#oftenSelect").val()}, function(data) {
+			if (data.success) {
+				$("#saveOftenButton").removeClass("fnf-button");
+				$("#saveOftenButton").addClass("fnf-green-button");
+				$("#saveOftenButton").text("SAVED");
+				$("#saveOftenButton").attr("disabled", "true");
+			} else {
+				alert(data.error);
+			}
+		});
+	}
 }
 
 $(function() {

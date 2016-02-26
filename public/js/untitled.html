@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html style="margin:0;padding:0;height:100%;">
+<head>
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="/js/calendar.js"></script>
+ 
+</head>
+  
+<body style="margin:0;padding:0;height:100%;">
+
+<style>
+
+.timesTable {
+	background-color:red;
+}
+
+</style>
+
+ 
+<div id="calendar" class="calendar" style="width:100%;height:100%;background-color:red;overflow:scroll;">
+ 
+    <table class="calendarTable" cellspacing="0" cellpadding="0" border="0" style="width:100%;height:100%;">
+      <tr>
+        <td id="firstTd">
+            <button class="btn btn-back" style="height:20px;">Back</button>
+            <button class="btn btn-next" style="height:20px">Next</button>
+        </td>
+ 
+        <!-- column for all days -->
+        <td>
+          <div id="divHeader" style="overflow:hidden;width:100%;">
+              <!-- separate table for top row -->
+            <table class="headerTable" cellspacing="0" cellpadding="0" border="0" width="200%">
+              <tr class="headerRow">
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+ 
+      <!-- row to house all times -->
+      <tr>
+      
+          <!-- times column -->
+        <td valign="top">
+          <div id="firstcol" style="overflow:hidden; height: 80px">
+            <table class="timeCol" width="70 px" cellspacing="0" cellpadding="0" border="1" >
+              
+            </table>
+          </div>
+        </td>
+        
+        <!-- column to house all time slots -->
+        <td valign="top" style="width:100%; height:100%">
+          <div id="table_div" style="overflow:scroll;width:1000px;height:500px;position:relative" onscroll="fnScroll()" >
+            <table class="timeSlotTable" width="200%" height="150%" cellspacing="0" cellpadding="0" border="1" >
+             
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+</div>
+<script>var cal = new Calendar("calendar", 3);</script>
+ 
+</body>
+</html>

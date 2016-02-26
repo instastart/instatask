@@ -1,0 +1,60 @@
+<div id="mainShadow" class="modal hidden" style="background-color:black;opacity:.5;top:0px;left:0px;"></div>
+
+<div id="mainModal" class="fnf-back1 modal hidden" style="top:10px; left:10px;border-radius:5px;overflow:scroll;">
+	<div  class="center full" style="border-bottom:1px solid #CCC;">
+		<div id="modalHeaderBar" class="table full fixed" >
+			<div class="row">
+				<div class="cell width10" >
+					
+				</div>
+				<div class="cell width80 center">
+					<span class="friendName">Title</span><span>'s Profile</span>
+				</div>
+				<div class="cell width10 clickable" onclick="hideModal()" style="color:#00A1CB;padding:5px;">
+					Close
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="userInfoId">
+		<img id="modalImage" class="center" src="">
+	</div>
+
+	<h3 class="offset5" style="font-size:medium;margin-bottom:8px;margin-top:15px;">Reliability</h3>
+	<table class="width90 offset5 stat2Table">
+		<tr>
+			<td>Meetups Attended</td>
+			<td id="meetupAttended">0</td>
+		</tr>
+		<tr>
+			<td>Meetups Scheduled</td>
+			<td id="meetupScheduled">0</td>
+		</tr>
+		<tr>
+			<td>Attendence Rate</td>
+			<td id="attendenceRate">n/a</td>
+		</tr>
+	</table>
+
+	<div class="center width90 top20">
+		<div class="addBox">
+			<button id="addOnProfile" class="addButton" onclick="addf('56c77a3b0b45bbf1287a7ac8')">+ ADD FRIEND</button>
+		</div>
+
+		<div id="selectOftenDiv">
+			<h3 style="font-size:medium">How often would you like to eat with <span class="friendName"></span>?</h3>
+			<select id="oftenSelect" name="oftenSelect" onchange="enableSaveOftenButton()">
+				<option id="oftenSelect0" value="0">Anything goes</option>
+				<option id="oftenSelect1" value="1">As much as possible</option>
+				<option id="oftenSelect2" value="2">Once a week</option>
+				<option id="oftenSelect3" value="3">Once biweekly</option>
+				<option id="oftenSelect4" value="4">Once a month</option>
+				<option id="oftenSelect5" value="5">Once a quarter</option>
+				<option id="oftenSelect6" value="6">Once a year</option>
+				<option id="oftenSelect-1" value="-1">Never</option>
+			</select>&nbsp;<button id="saveOftenButton" class="fnf-button" onclick="saveOften()">Save</button>
+		</div>
+
+		<br>
+	</div>
+
+</div>

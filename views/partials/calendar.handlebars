@@ -1,43 +1,9 @@
 
-<table class="mcal full center" style="text-align:center;font-size:small">
- <tr>
-  <th>BACK</th>
-  <th>FRI<br>19</th>
-  <th>SAT<br>20</th>
-  <th>SUN<br>21</th>
-  <th>NEXT</th>
- </tr>
 
- {{#each caltimes}}
- <tr>
-  <td>{{this}}AM</td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  <td></td>
-  <td></td>
- </tr><tr>
- <td></td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  
-  <td></td>
-  <td></td>
- </tr>
- {{/each}}
-  {{#each caltimes2}}
- <tr>
-  <td>{{this}}AM</td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  <td></td>
-  <td></td>
-  </tr><tr>
-  <td></td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  
-  <td></td>
-  <td></td>
- </tr>
- {{/each}}
+<table id="mainCalendar" class="mcal full center responsive" style="text-align:center;font-size:small;">
+
 </table>
+
+<script>
+var mainCal = new Calendar("mainCalendar", 0, "mainCal");
+</script>
