@@ -13,8 +13,7 @@ exports.view = function(req, res){
   if (req.session.user) {
     obj["loggedin"] = true;
   }
-  obj["caltimes"] = [7,8,9,10,11];
-  obj["caltimes2"] = [12,1,2,3,4,5,6,7,8,9,10];
+  
   res.render('index', obj);
   /*
     if (!req.session.user) {

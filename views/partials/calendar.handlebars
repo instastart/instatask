@@ -1,8 +1,40 @@
 
 
+
 <table id="mainCalendar" class="mcal full center responsive" style="text-align:center;font-size:small;">
 
 </table>
+
+<div id="mainCalendarHeaderHolder" class="modal mcalHolder" style="top:39px;width:100%;overflow:hidden;    height: 58px;">
+	<table id="mainCalendarHeader" class="mcal full center responsive" style="text-align:center;font-size:small;background-color:white;">
+
+	</table>
+</div>
+
+<div id="mainCalendar_backButton" class="modal fnf-orange-button backIcon backPos clickable" onclick="mainCal.back();"><</div>
+
+<div id="mainCalendar_nextButton" class="modal fnf-orange-button backIcon nextPos clickable" onclick="mainCal.next();">></div>
+
+
+<div id="editButton" class="modal fnf-button editIcon clickable" onclick="mainCal.editMode();"><img src="images/editicon.png"></div>
+
+<div id="interactButton" class="modal fnf-green-button editIcon clickable hidden" onclick="mainCal.interactMode();"><img src="images/doneicon.png"></div>
+
+
+<div class="editButton blueToolbar modal table " style="display:none">
+<div class="row">
+ <div class="cell">
+  Action: <input type="" />
+ </div>
+ <div class="cell">
+  for week of: 
+ </div>
+</div>
+</div>
+
+<div class="offset5">add default calendar's available times for the next <br><input id="mainCalendarNumDays" type="number" value="7" min="3" max="21" style="width:70px;" onchange="mainCal.defaultDaysChanged()"> days. 
+	<button id="mainCalendarDefaultButton" class="fnf-button" onclick="mainCal.addDefaults()">ADD</button>
+</div>
 
 <script>
 var mainCal = new Calendar("mainCalendar", 0, "mainCal");

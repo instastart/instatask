@@ -28,7 +28,7 @@ mongoose.connect(database_uri);
 
 // Step 2: Remove all existing documents
 models.Project.remove({}, onceClear3);
- 
+
 
  function onceClear3(err) {
     if(err) console.log(err);

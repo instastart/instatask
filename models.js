@@ -40,10 +40,25 @@ var EventSchema = new Mongoose.Schema({
 	"person3": ObjectId,
 	"person4": ObjectId,
 	"time": Date,
-	"location": Number
+	"location": String
 });
 
 exports.Event = Mongoose.model('Event', EventSchema);
+
+var CalSchema = new Mongoose.Schema({
+	"cval1": Number,
+	"cval2start": Number,
+	"cval2end": Number,
+	"day": Date,
+	"user": ObjectId,
+	"isDefault": Boolean,
+	"event": ObjectId,
+	"people": Number, // number of people
+	"status": Number, // 0 - searching, 1 - found
+	"location": String // where to eat
+});
+
+exports.Cal = Mongoose.model('Cal', CalSchema);
 
 var MessageSchema = new Mongoose.Schema({
 	"sender": ObjectId,

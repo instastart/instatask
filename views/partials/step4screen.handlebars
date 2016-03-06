@@ -16,50 +16,24 @@
 
 <div class="fnf-back1">
 
-<table class="mcal full center" style="text-align:center;font-size:small">
- <tr>
-  <th></th>
-  <th>FRI<br>19</th>
-  <th>SAT<br>20</th>
-  <th>SUN<br>21</th>
-  <th>MON<br>22</th>
- </tr>
+<table id="walkthroughCalendar" class="mcal full center responsive" style="text-align:center;font-size:small;">
 
- {{#each caltimes}}
- <tr>
-  <td>{{this}}AM</td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  <td></td>
-  <td></td>
- </tr><tr>
- <td></td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  
-  <td></td>
-  <td></td>
- </tr>
- {{/each}}
-  {{#each caltimes2}}
- <tr>
-  <td>{{this}}AM</td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  <td></td>
-  <td></td>
-  </tr><tr>
-  <td></td>
-  <td class="lockedCell"></td>
-  <td class="lockedCell"></td>
-  
-  <td></td>
-  <td></td>
- </tr>
- {{/each}}
 </table>
 
+<div id="walkthroughCalendarHeaderHolder" class="modal mcalHolder" style="top:39px;width:100%;overflow:hidden;height: 58px;">
+	<table id="walkthroughCalendarHeader" class="mcal full center responsive" style="text-align:center;font-size:small;background-color:white;">
 
+	</table>
+</div>
+
+<div id="walkthroughCalendar_backButton" class="modal fnf-orange-button backIcon backPos clickable" onclick="walkCal.back();"><</div>
+
+<div id="walkthroughCalendar_nextButton" class="modal fnf-orange-button backIcon nextPos clickable" onclick="walkCal.next();">></div>
+
+
+<script>
+var walkCal = new Calendar("walkthroughCalendar", 1, "walkCal");
+</script>
 
 
 	<div class="underBar">
@@ -76,7 +50,7 @@
 
 			</div>
 			<div class="cell" style="width:10%">
-				<button class="fnf-button" style="margin-right:4px;" onclick="skip(5)">finish</button>
+				<button class="fnf-button" style="margin-right:4px;" onclick="skip(5);walkCal.clearServerCalendar();">finish</button>
 			</div>
 			</div>
 		</div>

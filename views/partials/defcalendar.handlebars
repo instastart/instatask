@@ -1,0 +1,24 @@
+<table id="defCalendar" class="mcal full center responsive" style="text-align:center;font-size:small;">
+
+</table>
+
+<div id="defCalendarHeaderHolder" class="modal mcalHolder" style="top:39px;width:100%;overflow:hidden;    height: 38px;">
+	<table id="defCalendarHeader" class="mcal full center responsive" style="text-align:center;font-size:small;background-color:white;">
+
+	</table>
+</div>
+
+<div id="defCalendar_backButton" class="modal fnf-orange-button backIcon backPos clickable" onclick="defCal.back();"><</div>
+
+<div id="defCalendar_nextButton" class="modal fnf-orange-button backIcon nextPos clickable" onclick="defCal.next();">></div>
+
+
+<div id="defCancelButton" class="modal fnf-red-button edit2Icon clickable" onclick="swap(4);"><img src="images/xicon.png"></div>
+
+<div id="defSaveButton" class="modal fnf-green-button editIcon clickable" onclick="defCal.clearServerCalendar();swap(4);"><img src="images/doneicon.png"></div>
+
+<script>
+var defCal = new Calendar("defCalendar", 2, "defCal");
+</script>
+<br>
+<br>

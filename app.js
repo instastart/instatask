@@ -79,6 +79,8 @@ app.get('/recent', login.recentPage);
 app.get('/friends', login.friendsPage);
 app.post('/user', login.userInfoPage);
 
+app.post('/cal', login.calPage);
+
 app.get('/add', task.addTask);
 app.post('/add', task.addTask);
 app.post('/complete', task.completeTask);

@@ -53,6 +53,64 @@ exports.userInfoPage = function(req, res) {
     }
 }
 
+exports.calPage = function(req, res) {
+    if (!req.session.user) {
+        res.json({"error": "No user logged in", "success": false});
+        return;
+    } 
+
+    function afterRemove(err) {
+        if (err) {
+            console.log(err);
+        }   
+        res.json({"success": true});
+    }
+    if (req.body.def) {
+        if (req.body.clear) {
+            models.Cal.remove({week: req.body.week, user: req.session.user._id}, afterRemove);
+        } else if (req.body.remove) {
+            models.Cal.remove({
+                "day": {$gt: new Date(req.body.daystart), $lt: new Date(req.body.dayend)},
+                "status": 0,
+                "user": req.session.user._id,
+                "isDefault": req.body.def
+            }, afterRemove);
+        } else if (req.body.set) {
+            var newCal = new models.Cal(
+            {
+                "cval1": req.body.cval1,
+                "cval2start": req.body.cval2start,
+                "cval2end": req.body.cval2end,
+                "day": new Date(req.body.day),
+                "status": 0, // 0 - searching, 1 - found
+                "user": req.session.user._id,
+                "isDefault": req.body.def
+            });
+            newCal.save(afterSaving);
+
+            function afterSaving(err) {
+                if (err) {
+                    console.log(err);
+                }
+                res.json({"success": true});
+            }
+
+        } else if (req.body.get) {
+            models.Cal.find({day: {$gte: new Date(req.body.daystart), $lt: new Date(req.body.dayend)}, isDefault: req.body.def, user: req.session.user._id}).exec(afterFind);
+
+            function afterFind(err, cals) {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(cals);
+                res.json({ "success": true, "cals": cals});
+            }
+        }
+    } else {
+        res.json({'success': false, "error": "No default status provided"});
+    }
+}
+
 exports.recentPage = function(req, res) {
     if (req.session.user) {
         models.Recent.find({owner: req.session.user._id}).exec(afterRecentFind);
@@ -79,7 +137,7 @@ exports.friendsPage = function(req, res) {
                 if (err) {
                     console.log(err);
                 }
-                var obj = {"success": true, "friends": found};
+                var obj = {"success": true, "friends": found, "friendships": friends};
                 res.json(obj);
             }
             

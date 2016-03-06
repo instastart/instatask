@@ -2,44 +2,51 @@
 
 <div class="pageBar red table">
 <div class="row">
-<div class="cell clickable" style="width:10%">
-<span style="margin-left:5px;" class="hidden" onclick="skip(3)">Back</span>
+<div class="cell" style="width:10%">
+<span id="fnfheader" style="margin-left:5px;" class="hidden clickable" onclick="swap(1)">FnF</span>
+<span style="margin-left:5px;" class="hidden clickable" onclick="skip(3)">Back</span>
 </div>
 <div id="mTitle" class="cell center" style="width:80%">
 Recent
 </div>
 <div class="cell" style="width:10%">
-FnF
+<img id="imgheader" src="" class="clickable">
 </div>
 </div>
 </div>
 
 <div id="mainArea" class="fnf-back1"> 
 
-<div id="view1" >
-{{> recent}}
+	<div id="view1" >
+	{{> recent}}
+	</div>
+
+	<div id="view2" class="hidden">
+	{{> calendar}}
+
+	 
+	</div>
+
+	<div id="view3" class="hidden">
+	{{> friends}}
+	</div>
+
+	<div id="view4" class="hidden">
+
+	{{> settings}}
+
+	</div>
+
+	<div id="view5" class="hidden">
+
+	{{> defcalendar}}
+
+	</div>
+
 </div>
 
-<div id="view2" class="hidden">
-{{> calendar}}
 
- 
-</div>
-
-<div id="view3" class="hidden">
-{{> friends}}
-</div>
-
-<div id="view4" class="hidden">
-
-{{> settings}}
-
-</div>
-
-</div>
-
-
-<div class="table full navBar clickable" style="margin-top:10px">
+<div class="table full navBar clickable" style="border-top:1px solid #AAA;">
  <div class="row">
  	<div class="cell nav1 active" onclick="swap(1)">
  		<img class="navIcon" src="images/recentnav.png">
