@@ -81,6 +81,9 @@ app.post('/user', login.userInfoPage);
 
 app.post('/cal', login.calPage);
 
+app.get('/commands', login.commandsPage);
+app.post('/command', login.commandPage);
+
 app.get('/add', task.addTask);
 app.post('/add', task.addTask);
 app.post('/complete', task.completeTask);

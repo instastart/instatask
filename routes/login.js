@@ -376,7 +376,110 @@ exports.welcomePage = function(req, res) {
 }
 
 exports.settingsPage = function(req, res) {
-
-
     res.render('settings');
+}
+
+exports.commandsPage = function(req, res) {
+    res.render('commands');
+}
+
+function getUser(id) {
+    var user = false;
+    var started = false;
+    while (user == false) {
+        if (!started) {
+            started = true;
+            models.User.find({_id: id}).exec(function(err, friends) {
+                if (err) {
+                    console.log(err);
+                }
+                if (friends.length == 0) {
+                    console.log("No user found, wtf?");
+                    user = -1;
+                }
+                user = friends[0];
+            });
+        }
+    }
+    return user;
+}
+
+function getFriendship(id1, id2) {
+    var user = false;
+    var started = false;
+    while (user == false) {
+        if (!started) {
+            started = true;
+            models.Friend.find({person: id1, friend: id2}).exec(function(err, friends) {
+                if (err) {
+                    console.log(err);
+                }
+                if (friends.length == 0) {
+                    user = -1;
+                }
+                user = friends[0];
+            });
+        }
+    }
+    return user;
+}
+
+function matchObj(c1, c2) {
+    this.cval2start;
+    this.cval2end;
+    // time verification
+    if (c2.cval2start < c1.cval2end) {
+        this.cval2start = c2.cval2start;
+        this.cval2end = Math.min(c1.cval2end, c2.cval2end);
+    } else {
+        this.cval2start = -1; // there is no way these can be matched.
+        this.matchable = false;
+        return;
+    }
+    // friends verification
+    this.u1 = getUser(c1.user);
+    this.u2 = getUser(c2.user);
+    this.f1 = getFriendship(c1.user, c2.user);
+    this.f2 = getFriendship(c1.user, c2.user);
+    if (!this.u1.okayAny && !this.u1.okayFOF) { // needs to be a friend forsho
+        if (this.f1 != -1) { // they are friends.
+            
+        }
+    }
+    // place verification
+
+}
+
+function matchable(c1, c2) {
+    
+}
+
+// matching algorithm, fun stuff!
+exports.commandPage = function(req, res) {
+    today = new Date();
+    today.setDate(today.getDate() + 1); 
+    var start = new Date(today.getMonth() + 1 + "/" + today.getDate() + "/" + (today.getYear() + 1900));
+    start.setHours(8);
+    console.log(start, today);
+    var days = req.body.days;
+
+    models.Cal.find({day: start, isDefault: false, status: 0}).exec(afterFind1);
+
+    function afterFind1(err, cals) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(cals);
+        for (var i = 0; i < cals.length; i++) {
+            var cal = cals[i];
+            for (var k = i + 1; k < cals.length; k++) {
+                var calcmp = cals[k];
+                var matched = new matchObj(cal, calcmp);
+                if (matched.matchable) {
+
+                }
+            }
+        }
+        res.json({ "success": true, "cals": cals});
+    }
 }

@@ -44,6 +44,11 @@ function Cell(id, d, cval2, upper) {
 
   this.state = 0;
 
+  this.eventId = "";
+  this.location = "Foodworx";
+  this.people = ["Adre Marie", "Oleg Uptkin", "Obiwan Konobi", "Ana Wong"];
+  this.peopleId = ['56c6dceaa5af6ef519a38fea', '56c6e27d54d51c271be170ac', '56c73e24a9e62c5a2351df75', '56c6fa28e034b5fc1c3870cc'];
+
   this.setLower = function(lower) {
     this.lower = lower;
   }
@@ -289,8 +294,11 @@ function Calendar(id, ttype, varname) {
     $("#" + this.id + " .halfRow").show();
 
     if (this.ttype == 0) {
-      $("#interactButton, .emode").show();
-      $("#editButton, .imode").hide();
+      $("#interactButton, #" + this.id + " .emode").show();
+      $("#editButton, #" + this.id + " .imode").hide();
+    } else {
+      $("#" + this.id + " .emode").show();
+      $("#" + this.id + " .imode").hide();
     }
     
 
@@ -312,10 +320,10 @@ function Calendar(id, ttype, varname) {
       $("#mainArea").scrollTop("0");
     }
     
-    $("#interactButton, .emode").hide();
-    $("#editButton, .imode").show();
+    $("#interactButton, #" + this.id + " .emode").hide();
+    $("#editButton, #" + this.id + " .imode").show();
 
-    $(".halfRow").hide();
+    $("#" + this.id + " .halfRow").hide();
 
     $(".ed1, .ed3, .ed4").removeClass("clickable");
     $(".ed1").attr("onclick", "");
@@ -502,6 +510,7 @@ function Calendar(id, ttype, varname) {
       te.find(".imode.celldiv1").text("");
     }
 
+    obj.state = 0;
     obj.taken = false;
 
     if (obj.lower && obj.lower.taken) {
@@ -509,7 +518,8 @@ function Calendar(id, ttype, varname) {
     }
   }
 
-  this.shade = function(obj, withavailable) {
+  // preconditions: if isEvent, then obj.location and obj.people.length must be updated before clicked
+  this.shade = function(obj, withavailable, withEnd, isEvent) {
     if (!obj) {
       return;
     }
@@ -517,19 +527,32 @@ function Calendar(id, ttype, varname) {
     var past = isPast(obj.date);
     var cclass = "teal";
     var label = "available";
+    var endLabel = "";
     var cclickable = " clickable"; 
     var conclick = this.varname + ".calClick('" + obj.id + "')";
-    if (past) {
+    if (isEvent) {
+      cclass = "orange";
+      label = obj.location;
+      endLabel = obj.people.length + " " + "<img src='images/personicon.png' class='personicon'>";
+      conclick = this.varname + ".calEventClick('" + obj.id + "')";
+      obj.state = 1;
+    } else if (past) {
       cclass = "gray";
       label = "no meetup found";
       conclick = this.varname + ".calNMClick('" + obj.id + "')";
-    } 
+      obj.state = 0;
+    } else {
+      obj.state = 0;
+    }
     t.find(".emode.celldiv1").addClass(cclass);
     t.find(".emode.celldiv2").addClass(cclass);
 
     if (withavailable) {
       t.find(".emode.celldiv1").addClass("topDiv");
       t.find(".emode.celldiv1").text(label);
+    } else if (withEnd) {
+      t.find(".emode.celldiv2").addClass("botDiv");
+      t.find(".emode.celldiv2").html(endLabel);
     } else {
       t.find(".emode.celldiv1").removeClass("topDiv");
       t.find(".emode.celldiv1").text("");
@@ -543,6 +566,9 @@ function Calendar(id, ttype, varname) {
       if (withavailable) {
         te.find(".imode.celldiv2").addClass("topDiv");
         te.find(".imode.celldiv2").text(label);
+      } else if (withEnd) {
+        te.find(".imode.celldiv2").addClass("botDiv");
+        te.find(".imode.celldiv2").html(endLabel);
       } else {
         te.find(".imode.celldiv2").removeClass("topDiv");
         te.find(".imode.celldiv2").text("");
@@ -554,6 +580,9 @@ function Calendar(id, ttype, varname) {
       if (withavailable) {
         te.find(".imode.celldiv1").addClass("topDiv");
         te.find(".imode.celldiv1").text(label);
+      } else if (withEnd) {
+        te.find(".imode.celldiv1").addClass("botDiv");
+        te.find(".imode.celldiv1").html(endLabel);
       } else {
         te.find(".imode.celldiv1").removeClass("topDiv");
         te.find(".imode.celldiv1").text("");
@@ -561,7 +590,6 @@ function Calendar(id, ttype, varname) {
     }
 
     obj.taken = true;
-
   }
 
   /*
@@ -695,7 +723,6 @@ function Calendar(id, ttype, varname) {
     $("#eventModal_notes").text("");
     $("#nm_note").show();
     // alert("You will be notified about a meetup for this available time in the afternoon of " + obj.date.toString());
-    
   }
 
   function init(thisx) {
@@ -872,6 +899,7 @@ function Calendar(id, ttype, varname) {
       $("#" + this.id + "_backButton").hide();
       this.clear();
     }
+
 
     this.initScrollSync();
 
