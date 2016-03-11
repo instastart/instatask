@@ -46,8 +46,8 @@ function Cell(id, d, cval2, upper) {
 
   this.eventId = "";
   this.location = "Foodworx";
-  this.people = ["Adre Marie", "Oleg Uptkin", "Obiwan Konobi", "Ana Wong"];
-  this.peopleId = ['56c6dceaa5af6ef519a38fea', '56c6e27d54d51c271be170ac', '56c73e24a9e62c5a2351df75', '56c6fa28e034b5fc1c3870cc'];
+  this.people = ["Adre Marie", "Oleg Uptkin", "Obiwan Konobi", "FILL"];
+  this.peopleId = ['56c6dceaa5af6ef519a38fea', '56c6e27d54d51c271be170ac', '56c73e24a9e62c5a2351df75', "FILL"];
 
   this.setLower = function(lower) {
     this.lower = lower;
@@ -706,6 +706,26 @@ function Calendar(id, ttype, varname) {
     
   }
 
+  this.calEventClick = function(tid) {
+    var obj = this.tcells[tid];
+
+    showModal(1);
+
+    $(".stdModalHide").hide();
+    $(".fs").show();
+
+    $("#eventModalTitle").text("Food Meetup at " + obj.location);
+
+    $("#eventModal_date").text(obj.getDateString());
+    $("#eventModal_time").text(this.findCellStart(obj).getTimeString() + " - " + this.findCellEnd(obj).getTimeEndString());
+    var d = new Date(obj.date);
+    d.setDate(d.getDate() - 1);
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    $("#eventModal_notes").text("Please let your friends know if you can't make it." );
+    // alert("You will be notified about a meetup for this available time in the afternoon of " + obj.date.toString());
+    
+  }
+
   this.calNMClick = function(tid) {
     var obj = this.tcells[tid];
 
@@ -844,9 +864,16 @@ function Calendar(id, ttype, varname) {
         $("#homeScreen").show();
         //console.log(data.error);
       } else {
+        console.log(data);
         for (var i = 0; i < data.cals.length; i++) {
           for (var j = data.cals[i].cval2start; j <= data.cals[i].cval2end; j++) {
-            self.shade(self.tcells[ self.getTDid(new Date(data.cals[i].day), j) ], j == data.cals[i].cval2start);
+            if (data.cals[i].status == 1) {
+              self.tcells[ self.getTDid(new Date(data.cals[i].day), j) ].location = data.cals[i].location;
+              self.shade(self.tcells[ self.getTDid(new Date(data.cals[i].day), j) ], j == data.cals[i].cval2start, j == data.cals[i].cval2end, true);
+            } else {
+              self.shade(self.tcells[ self.getTDid(new Date(data.cals[i].day), j) ], j == data.cals[i].cval2start);
+            }
+            
           }
         } 
       }

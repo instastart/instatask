@@ -26,6 +26,7 @@ var UserSchema = new Mongoose.Schema({
 
 exports.User = Mongoose.model('User', UserSchema);
 
+/*
 var CalendarSchema = new Mongoose.Schema({
 	"matched": Boolean,
 	"time": Date,
@@ -33,6 +34,7 @@ var CalendarSchema = new Mongoose.Schema({
 });
 
 exports.Calendar = Mongoose.model('Calendar', CalendarSchema);
+*/
 
 var EventSchema = new Mongoose.Schema({
 	"person1": ObjectId,
@@ -73,6 +75,7 @@ var RecentSchema = new Mongoose.Schema({
 	"owner": ObjectId,
 	"message": String,
 	"link": String,
+	"onclick": String,
 	"time": Date
 });
 
@@ -81,7 +84,8 @@ exports.Recent = Mongoose.model('Recent', RecentSchema);
 var FriendSchema = new Mongoose.Schema({
 	"person": ObjectId,
 	"friend": ObjectId,
-	"status": Number
+	"status": Number,
+	"last": Date // last time eaten together
 });
 
 exports.Friend = Mongoose.model('Friend', FriendSchema);

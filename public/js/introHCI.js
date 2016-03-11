@@ -1,7 +1,7 @@
 'use strict';
 
 var userInit = false;
-
+var me;
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
 	initializePage();
@@ -246,6 +246,7 @@ function confirmsignup() {
 }
 
 function initUser(user, location) {
+	me = user;
 	userInit = true;
 	populateRecents();
 	$("#imgheader").attr("src", user.imageUrl);
@@ -343,13 +344,13 @@ function populateRecents() {
 	$.get("/recent", function(data) {
 		if (data.success) {
 			$("#recentFeed").html("");
-			for (var i = 0; i < data.recents.length; i++) {
+			for (var i = data.recents.length - 1; i >= 0; i--) {
 				var d = new Date(data.recents[i].time)
 				var ender = "<div class='recentCardBottom'>" + d.toLocaleTimeString() + " " + d.toLocaleDateString() + "</div>";
 				if (data.recents[i].link != "") {
 					$("#recentFeed").append("<a href='" + data.recents[i].link + "'><div class='recentCard clickable shadable2'>" + data.recents[i].message + "</div>" + ender + "</a>");
 				} else {
-					$("#recentFeed").append("<div class='recentCard'>" + data.recents[i].message + "</div>" + ender);
+					$("#recentFeed").append("<div class='recentCard' onclick=\"" + data.recents[i].onclick + "\">" + data.recents[i].message + "</div>" + ender);
 				}
 			}
 		} else {

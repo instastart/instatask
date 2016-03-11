@@ -427,6 +427,7 @@ function getFriendship(id1, id2) {
 function matchObj(c1, c2) {
     this.cval2start;
     this.cval2end;
+    this.matchable = true;
     // time verification
     if (c2.cval2start < c1.cval2end) {
         this.cval2start = c2.cval2start;
@@ -441,17 +442,16 @@ function matchObj(c1, c2) {
     this.u2 = getUser(c2.user);
     this.f1 = getFriendship(c1.user, c2.user);
     this.f2 = getFriendship(c1.user, c2.user);
-    if (!this.u1.okayAny && !this.u1.okayFOF) { // needs to be a friend forsho
+    if (this.f1 == -1) { // needs to be a friend forsho
+        this.matchable = false;
+        /* they aren't friends
         if (this.f1 != -1) { // they are friends.
             
         }
+        */
     }
     // place verification
 
-}
-
-function matchable(c1, c2) {
-    
 }
 
 // matching algorithm, fun stuff!
@@ -463,23 +463,30 @@ exports.commandPage = function(req, res) {
     console.log(start, today);
     var days = req.body.days;
 
-    models.Cal.find({day: start, isDefault: false, status: 0}).exec(afterFind1);
+    start.setDate(start.getDate() + 1);
+    for (var m = 0; m < days; m++) {
+        var locs = ["Foodworx", "Panda Express", "Pines", "Shogun", "Bombay Coast"];
+        var loc = locs[Math.floor(Math.random()*locs.length)];
+        models.Cal.update({day: start, isDefault: false, status: 0}, {status: 1, people: 2, location: loc}, afterFind1);
+        models.Cal.find({day: start, isDefault: false, status: 1}).exec(afterFind1);
+        start.setDate(start.getDate() + 1);
+    }
+    
 
     function afterFind1(err, cals) {
-        if (err) {
-            console.log(err);
-        }
         console.log(cals);
         for (var i = 0; i < cals.length; i++) {
-            var cal = cals[i];
-            for (var k = i + 1; k < cals.length; k++) {
-                var calcmp = cals[k];
-                var matched = new matchObj(cal, calcmp);
-                if (matched.matchable) {
-
-                }
-            }
+            var newRecent = new models.Recent({
+                "owner": cals[i].user,
+                "message": "<b>New Food Meetup Match!</b><br> You've been matched to get food with friends on " + cals[i].day.toLocaleDateString(),
+                "link": "",
+                "onclick": "mainCal.calEventClick('cell_mainCalendar_" + cals[i].day.toLocaleDateString().replace("/", "_") + "_" + cals[i].cval2start + "');",
+                "time": Date.now()
+            });
+            newRecent.save();
         }
-        res.json({ "success": true, "cals": cals});
+        res.json({ "success": true });
+        
     }
+    
 }
